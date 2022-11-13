@@ -24,8 +24,8 @@
           </div>
           <h2 class="title">Sign in</h2>
           <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="text" id="username1" placeholder="Username" />
+            <i class="fas fa-envelope"></i>
+            <input type="email" id="email1" placeholder="Email" />
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
@@ -61,7 +61,7 @@
           </div>
           <h2 class="title">Sign up</h2>
           <div class="input-field">
-            <i class="fas fa-person"></i>
+            <i class="fas fa-user"></i>
             <input class="form-control" type="text" id="fullname" placeholder="Fullname" />
           </div>
 
@@ -130,6 +130,7 @@
   <script src="signin.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <script src="sweetalert2.all.min.js"></script>
 
   <script>
     $(document).ajaxStart(function () {
@@ -174,7 +175,7 @@
               // window.location.href = "user.html" + "?" + $.param(ret);
             } else {
               // callSweetMsg("Error", "Titan Bank Motion System", "error");
-              toastr["error"]("Error Occured");
+              toastr["success"]("Account Created");
             }
           } catch (e) {
             console.log(e.message);
@@ -190,11 +191,11 @@
 
 
     function login() {
-      var username1 = $("#username1").val();
+      var email1 = $("#email1").val();
       var password1 = $("#password1").val();
-      if (username1 == "") {
-        toastr["error"]("Enter username");
-      } else if (password1 == "") {
+      if (email1 == "") {
+        toastr["error"]("Enter email");
+      } else if (password == "") {
         toastr["error"]("Enter password");
       } else {
         // $.blockUI({
@@ -202,10 +203,10 @@
         //     '<div class="spinner-grow text-danger" role="status"><span class="visually-hidden"></span></div>',
         // });
         $.ajax({
-          url: "https://motion-detection-backend-production.up.railway.app/account/create-user/",
+          url: "https://motion-detection-backend-production.up.railway.app/account/login/",
           data: {
-            username1: username,
-            password1: password,
+            email: email1,
+            password: password1,
 
           },
           type: "POST",
@@ -215,10 +216,10 @@
               // var json = JSON.parse(response);
               // console.log(json);
               // var page = json.data.page;
-              let tokenn = response.token;
+              let tokenn = response.access_token;
               if (response.status == 200) {
                 var ret = {
-                  token: response.token,
+                  token: response.access_token,
                 };
                 window.location.href = "home.html" + "?" + $.param(ret);
                 // console.log("michael")
