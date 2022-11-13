@@ -5,8 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+  <link rel="shortcut icon" href="./img/grid-globe-map-png.webp" type="image/x-icon">
   <link rel="stylesheet" href="signin.css" />
-  <title>Sign in & Sign up Form</title>
+  <title>TITAN BANK || Sign in & Sign up</title>
 </head>
 
 <body>
@@ -16,7 +18,9 @@
         <form action="./home.html" class="sign-in-form">
           <div class="logo">
             <!-- <img src="./img/logo.png" alt="Logo" /> -->
-           <a href="/" class="home"> <h2>Titan Bank</h2></a>
+            <a href="/" class="home">
+              <h2>Titan Bank</h2>
+            </a>
           </div>
           <h2 class="title">Sign in</h2>
           <div class="input-field">
@@ -27,7 +31,7 @@
             <i class="fas fa-lock"></i>
             <input type="password" id="password1" placeholder="Password" />
           </div>
-          <input type="submit" value="Login" class="btn solid" />
+          <input type="button" value="Login" onclick="login()" class="btn solid" />
           <p class="social-text">Or Sign in with social platforms</p>
           <div class="social-media">
             <a href="#" class="social-icon">
@@ -44,10 +48,16 @@
             </a>
           </div>
         </form>
+
+
+        <!-- SIGNUP FORM -->
+
         <form action="#" class="sign-up-form">
           <div class="logo">
             <!-- <img src="./img/logo.png" alt="Logo" /> -->
-            <a href="/" class="home"> <h2>Titan Bank</h2></a>
+            <a href="/" class="home">
+              <h2>Titan Bank</h2>
+            </a>
           </div>
           <h2 class="title">Sign up</h2>
           <div class="input-field">
@@ -62,7 +72,7 @@
             <i class="fas fa-lock"></i>
             <input type="password" id="password" placeholder="Password" />
           </div>
-          <input type="submit" class="btn" value="Sign up" />
+          <input type="button" onclick="register()" class="btn" value="Sign up" />
           <p class="social-text">Or Sign up with social platforms</p>
           <div class="social-media">
             <a href="#" class="social-icon">
@@ -113,6 +123,119 @@
   </div>
 
   <script src="signin.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+  <script>
+    $(document).ajaxStart(function () {
+      // $.blockUI({
+      // 	message:
+      // 		'<div class="spinner-grow text-danger" role="status"><span class="visually-hidden"></span></div>',
+      // });
+    });
+
+    let username;
+    let email;
+    let password;
+
+    function register() {
+      console.log("michael")
+      $('#kt_sign_up_form').find(".form-control").each((e, r) => {
+        if (r.value == '' || !r.value) return;
+      });
+
+      username = $("#username").val();
+      email = $("#email").val();
+      password = $("#password").val();
+
+      $.ajax({
+        url: "",
+        type: "POST",
+        dataType: "text",
+        data: {
+          username: username,
+          password: password,
+          email: email
+        },
+        success: function (response) {
+          try {
+            if (response.status == 200) {
+              callSweetMsg("Account Created", "Titan Bank Motion System", "success");
+              // $.unblockUI();
+              // window.location.href = "user.html" + "?" + $.param(ret);
+            } else {
+              callSweetMsg("Error", "Titan Bank Motion System", "error");
+            }
+          } catch (e) {
+            console.log(e.message);
+          }
+        },
+      });
+
+    }
+
+
+
+
+
+
+    function login() {
+      var username1 = $("#username1").val();
+      var password1 = $("#password1").val();
+      if (username1 == "") {
+        toastr["error"]("Enter username");
+      } else if (password1 == "") {
+        toastr["error"]("Enter password");
+      } else {
+        // $.blockUI({
+        //   message:
+        //     '<div class="spinner-grow text-danger" role="status"><span class="visually-hidden"></span></div>',
+        // });
+        $.ajax({
+          url: "",
+          data: {
+            username1: username,
+            password1: password,
+
+          },
+          type: "POST",
+          success: function (response) {
+            console.log(response);
+            try {
+              // var json = JSON.parse(response);
+              // console.log(json);
+              // var page = json.data.page;
+              let tokenn = response.token;
+              if (response.status == 200) {
+                var ret = {
+                  token: response.token,
+                };
+                window.location.href = "home.html" + "?" + $.param(ret);
+                // console.log("michael")
+                // window.location.href = page + "?" + $.param(ret);
+              } else {
+                // $.unblockUI();
+                console.log("michael");
+                Swal.fire({
+                  title: "Titan Bank Motion System",
+                  html: response.message,
+                  icon: "error",
+                  buttonsStyling: true,
+                  confirmButtonText: "Ok, got it!",
+                  customClass: { confirmButton: "btn-sm btn-primary" },
+                });
+              
+              }
+            } catch (e) {
+              console.log(e.message);
+            }
+          },
+        });
+      }
+    }
+
+  </script>
+
 </body>
 
 </html>
