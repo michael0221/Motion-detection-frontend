@@ -52,7 +52,7 @@
 
         <!-- SIGNUP FORM -->
 
-        <form action="#" class="sign-up-form">
+        <form action="#" id="kt_sign_up_form" class="sign-up-form">
           <div class="logo">
             <!-- <img src="./img/logo.png" alt="Logo" /> -->
             <a href="/" class="home">
@@ -61,16 +61,21 @@
           </div>
           <h2 class="title">Sign up</h2>
           <div class="input-field">
-            <i class="fas fa-user"></i>
-            <input type="text" id="username" placeholder="Username" />
+            <i class="fas fa-person"></i>
+            <input class="form-control" type="text" id="fullname" placeholder="Fullname" />
           </div>
+
           <div class="input-field">
             <i class="fas fa-envelope"></i>
-            <input type="email" id="email" placeholder="Email" />
+            <input class="form-control" type="email" id="email" placeholder="Email" />
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" id="password" placeholder="Password" />
+            <input class="form-control" type="password" id="password" placeholder="Password" />
+          </div>
+          <div class="input-field">
+            <i class="fas fa-lock"></i>
+            <input class="form-control" type="password" id="confirm_password" placeholder="Confirm Password" />
           </div>
           <input type="button" onclick="register()" class="btn" value="Sign up" />
           <p class="social-text">Or Sign up with social platforms</p>
@@ -137,6 +142,7 @@
     let username;
     let email;
     let password;
+    let fullname;
 
     function register() {
       console.log("michael")
@@ -144,27 +150,31 @@
         if (r.value == '' || !r.value) return;
       });
 
-      username = $("#username").val();
+      fullname = $("#fullname").val();
       email = $("#email").val();
+      confirm_password = $("#confirm_password").val();
       password = $("#password").val();
 
       $.ajax({
-        url: "",
+        url: "https://motion-detection-backend-production.up.railway.app/account/create-user/",
         type: "POST",
         dataType: "text",
         data: {
-          username: username,
+          fullname: fullname,
           password: password,
+          confirm_password: confirm_password,
           email: email
         },
         success: function (response) {
           try {
             if (response.status == 200) {
-              callSweetMsg("Account Created", "Titan Bank Motion System", "success");
+              toastr["success"]("Account Created");
+              // callSweetMsg("Account Created", "Titan Bank Motion System", "success");
               // $.unblockUI();
               // window.location.href = "user.html" + "?" + $.param(ret);
             } else {
-              callSweetMsg("Error", "Titan Bank Motion System", "error");
+              // callSweetMsg("Error", "Titan Bank Motion System", "error");
+              toastr["error"]("Error Occured");
             }
           } catch (e) {
             console.log(e.message);
