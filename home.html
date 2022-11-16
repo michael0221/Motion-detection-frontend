@@ -53,7 +53,7 @@
         </div>
         <div class="container1">
           <div class="motion-list">
-      
+
 
           </div>
         </div>
@@ -98,22 +98,22 @@
       return res.json()
     }).then((data) => {
       console.log(data)
-     let motions = data;
-     data.captures.forEach((element, i) => {
-      let card = document.createElement("div");
-          card.classList.add("interns-card");
+      let motions = data;
+      data.captures.forEach((element, i) => {
+        let card = document.createElement("div");
+        card.classList.add("interns-card");
 
-          let containerContent =
-            ` <div class="">
+        let containerContent =
+          ` <div class="">
                 <div class="interns-card__image">
                   <img src="${element.image}" alt="">
                   <h5>Captured At: ${element.created_at}</h5>
                 </div>
               </div>
     </div>`
-    card.innerHTML = containerContent;
-          main.appendChild(card);
-     })
+        card.innerHTML = containerContent;
+        main.appendChild(card);
+      })
     });
 
 
